@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cek Kodam Nyeleneh</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        h1 {
+            color: #FF6347;
+            font-size: 36px;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* Button Style */
+        button {
+            background: linear-gradient(45deg, #ff7f50, #ff6347);
+            color: white;
+            padding: 12px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            background: linear-gradient(45deg, #ff6347, #ff7f50);
+            transform: scale(1.1);
+        }
+
+        button:active {
+            transform: scale(1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Result Section */
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #FF6347;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 90%;
+            width: 400px;
+            text-align: center;
+        }
+
+        .kodam-name {
+            font-size: 24px;
+            color: #FF6347;
+            text-transform: uppercase;
+        }
+
+        .kodam-description {
+            font-size: 18px;
+            color: #555;
+            margin-top: 10px;
+        }
+
+        /* Animation for Result */
+        .result {
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Cek Khodam!!</h1>
+    <p>Click tombol yang di bawah guys buat liat khodam lu:</p>
+    <button onclick="cekKodam()">Cek Kodam</button>
+    
+    <div class="result" id="result"></div>
+
+    <script>
+        // Daftar kodam
+        const kodamNama = [
+            "Babi Terbang", "Barongsai", "Kuda Ijo", "Kapal Lawud", "Budiono Siregar",
+            "Kucing Oren", "Tikus Beranak", "Ayam Rangkasbitung", "Burung Arab", "Kodok Upin Ipin",
+            "Cupang Slayer", "Semut Api", "Telor Cicak", "Bunglon Sawah", 
+            "Kecoa? Jelek bgt", "Belalang Slow-Mo", "Capung Eren", "Gajah RTX G-Force",
+            "Uler Auto-Tune", "Bebek Stand-Up", "Kura-Kura Ngegas", "Banteng PDIP",
+            "Lumba-Lumba Ancol", "Aerox", "Harimau Mesir", "Gagak Itachi",
+            "Ayam Geprek Nepal", "Buaya Ragunan", "Cupang Main PS", 
+            "Cacing Besar Alaska", "Anomali Tanabang", "Haji Kikir", "Agussss",
+            "Kodok Bhutan", "Burung Madun", "Singa Mager", "Babi Hutan"
+        ];
+
+        // Daftar deskripsi 
+        const kodamDeskripsi = [
+            "Ahli dalam mencari WiFi gratis di mana saja.",
+            "Suka memberikan inspirasi mendadak, tapi cuma pas lagi mandi.",
+            "Jagonya makan tanpa henti, tapi tetap langsing.",
+            "Membantu Anda menemukan remote TV yang hilang.",
+            "Melindungi Anda dari teman yang suka pinjam uang tapi lupa bayar.",
+            "Ahli membaca gosip terbaru tanpa ketahuan.",
+            "Memberikan kekuatan tertawa di saat paling tidak tepat.",
+            "Membantu Anda menang di game online, tapi hanya kalau dia lagi mood.",
+            "Jago ngeles kalau Anda lupa tugas.",
+            "Melindungi Anda dari mantan yang tiba-tiba ngechat malam-malam.",
+            "Bisa bikin mie instan jadi dua kali lebih enak.",
+            "Meningkatkan kemampuan pura-pura sibuk saat bos mendekat.",
+            "Ahli bikin alasan biar bisa telat tapi tetap diterima.",
+            "Meningkatkan skill makan pedas tanpa air minum.",
+            "Bisa bikin semua lagu terasa seperti remix DJ.",
+            "Melindungi Anda dari komentar toxic di media sosial.",
+            "Membantu Anda tetap ngantuk bahkan setelah ngopi.",
+            "Ahli dalam menghindari pertanyaan sulit dari dosen.",
+            "Bisa menggagalkan usaha orang meminjam charger Anda.",
+            "Jagonya membuat alasan aneh tapi masuk akal.",
+            "Melindungi Anda dari typo memalukan di chat grup keluarga.",
+            "Membantu Anda tetap kalem saat cicilan datang.",
+            "Ahli dalam menemukan meme paling lucu untuk setiap situasi.",
+            "Meningkatkan kemampuan makan sambil rebahan.",
+            "Selalu tahu episode drama Korea terbaru.",
+            "Membantu Anda menang debat meski argumen tidak logis."
+        ];
+
+        // Fungsi untuk mengecek kodam
+        function cekKodam() {
+            // Pilih kodam dan deskripsi secara acak
+            const kodam = kodamNama[Math.floor(Math.random() * kodamNama.length)];
+            const deskripsi = kodamDeskripsi[Math.floor(Math.random() * kodamDeskripsi.length)];
+            
+            // Tampilkan hasilnya
+            const resultDiv = document.getElementById("result");
+            resultDiv.innerHTML = `<p class="kodam-name">${kodam}</p>
+                                   <p class="kodam-description">${deskripsi}</p>`;
+        }
+    </script>
+
+</body>
+</html>
